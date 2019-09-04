@@ -102,3 +102,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.DS_Store
+.gradle
+.project
+.settings
+.classpath
+bin
+__pycache__
+.pyc
+venv
+.idea
