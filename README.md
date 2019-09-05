@@ -35,7 +35,7 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 
 访问网页更多是IO操作，CPU等待。Hash运算就不同了。我选择使用[SHA256](https://baike.baidu.com/item/sha256)进行测试。具体的做法就是多次对一段文本进行hash运算。
 
-下表中的数值为1000次运算平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/xyj.txt)
+下表中的数值为1000次运算后取得平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/xyj.txt)
 
 | 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
 | --- | --- | --- | ---| --- |
@@ -48,7 +48,7 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 
 我用给JPEG图片加水印来测试图片处理的能力。Python使用了[Pillow](https://python-pillow.org/)进行图像处理。Java使用的是JDK提供的JAI。
 
-下表中的数值为1000次运算平均所需的**毫秒**数，[这里是底图](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/lena512color.jpg)，[这是用作水印的PNG图](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/stamp.png)
+下表中的数值为1000次运算后取得平均所需的**毫秒**数，[这里是底图](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/lena512color.jpg)，[这是用作水印的PNG图](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/stamp.png)
 
 | 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
 | --- | --- | --- | ---| --- |
