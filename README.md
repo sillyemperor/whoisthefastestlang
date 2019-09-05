@@ -35,7 +35,7 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 
 访问网页更多是IO操作，CPU等待。Hash运算就不同了。我选择使用[SHA256](https://baike.baidu.com/item/sha256)进行测试。具体的做法就是多次对一段文本进行hash运算。
 
-下表中的数值为多次运算平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/xyj.txt)
+下表中的数值为1000次运算平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/xyj.txt)
 
 | 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
 | --- | --- | --- | ---| --- |
@@ -43,4 +43,20 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 | Python | 4 | 2 | 2 | 5 |
 
 很意外的Java居然比Python要慢一些，其实只要深入代码会发现，Python使用了[C代码](https://github.com/python/cpython/blob/master/Modules/clinic/sha256module.c.h)，而Java没有这样做。
+
+## 3. 图片处理
+
+我用给JPEG图片加水印来测试图片处理的能力。Python使用了[Pillow](https://python-pillow.org/)进行图像处理。Java使用的是JDK提供的JAI。
+
+下表中的数值为1000次运算平均所需的**毫秒**数，[这里是底图](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/lena512color.jpg)，[这是用作水印的PNG图](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/stamp.png)
+
+| 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
+| --- | --- | --- | ---| --- |
+| Java | 40 | 17 | 无 | 无 |
+| Python | 43 | 18 | 22 | 无 |
+
+可以看到这一次Java和Python的执行时间是相似的，Pillow使用了C来实现图像处理。Java的JAI框架默认安装的是纯Java实现的，但是可以在[官网](https://www.oracle.com/technetwork/java/install-jai-imageio-1-0-01-139659.html#PlatformRequirements)下载本地代码的实现，应该可以进一步提高性能。
+
+
+
 
