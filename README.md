@@ -14,11 +14,11 @@
 >   - Python 3.7.3
 
 
-## 1. 并发访问网络连接。
+## 1. 网页抓取
 
 假设我们需要访问许多网络连接并处理返回结果，可以不考虑访问顺序。最简单的方法就是一个个访问，优点是代码简单，缺点是速度太慢。要想提高速度就需要使用并发。下面就把几种语言各自的方案分别测试一下，看看效果。
 
-下表数值为访问平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/links.txt)
+下表中的数值为访问平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/links.txt)
 
 | 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
 | --- | --- | --- | ---| --- |
@@ -30,3 +30,17 @@
 Python的由于多线程饱受诟病，所以增加了多进程的方案，异步使用到了[aiohttp](https://github.com/aio-libs/aiohttp)。
 
 经过几次执行，发现Python3的async效果非常好，将来计划引入nodejs，go和rust。
+
+## 2. Hash运算
+
+访问网页更多是IO操作，CPU等待。Hash运算就不同了。我选择使用[SHA256](https://baike.baidu.com/item/sha256)进行测试。具体的做法就是多次对一段文本进行hash运算。
+
+下表中的数值为多次运算平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/xyj.txt)
+
+| 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
+| --- | --- | --- | ---| --- |
+| Java | 11 | 5 | 无 | 无 |
+| Python | 4 | 2 | 2 | 5 |
+
+很意外的Java居然比Python要慢一些，其实只要深入代码会发现，Python使用了[C代码](https://github.com/python/cpython/blob/master/Modules/clinic/sha256module.c.h)，而Java没有这样做。
+
