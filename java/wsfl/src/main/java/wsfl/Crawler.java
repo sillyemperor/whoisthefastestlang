@@ -32,10 +32,10 @@ public class Crawler {
 	Crawler() throws FileNotFoundException, IOException {
 		linksFile = new File("../../data/links.txt");
 		links = IOUtils.readLines(new FileInputStream(linksFile));
-		links.clear();
+//		links.clear();
 	}
 	
-	public int synchronize() {
+	public void synchronize(Timeit ti) {
 		links.forEach(i -> {
 			try {
 				URL url = new URL(i);
@@ -51,10 +51,10 @@ public class Crawler {
 			}
 
 		});
-		return links.size();
+		ti.set("顺序", links.size());
 	}
 	
-	public int multipleThread() {
+	public void multipleThread(Timeit ti) {
 		links.parallelStream().forEach(i -> {
 			try {
 				URL url = new URL(i);
@@ -70,10 +70,10 @@ public class Crawler {
 			}
 
 		});
-		return links.size();
+		ti.set("多线程", links.size());
 	}
 	
-	public int httpAsyncClients1() throws IOException {
+	public void httpAsyncClients1(Timeit ti) throws IOException {
 		try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
 			httpclient.start();
 
@@ -89,10 +89,10 @@ public class Crawler {
 				}
 			});
 		}
-		return links.size();
+		ti.set("Apache异步Client1", links.size());
 	}
 	
-	public int httpAsyncClients2() throws Exception {
+	public void httpAsyncClients2(Timeit ti) throws Exception {
 		try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
 			httpclient.start();
 
@@ -132,10 +132,10 @@ public class Crawler {
 			latch.await();
 
 		}
-		return links.size();
+		ti.set("Apache异步Client2", links.size());
 	}
 	
-	public int httpAsyncClients3() throws Exception {
+	public void httpAsyncClients3(Timeit ti) throws Exception {
 		try (CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault()) {
 			httpclient.start();
 
@@ -153,10 +153,10 @@ public class Crawler {
 					});
 		}
 		
-		return links.size();
+		ti.set("Apache异步Client3", links.size());
 	}
 	
-	public int vertx1() throws InterruptedException {
+	public void vertx1(Timeit ti) throws InterruptedException {
 
 		Vertx vertx = Vertx.vertx();
 		WebClient client = WebClient.create(vertx);
@@ -176,10 +176,11 @@ public class Crawler {
 		});
 
 		latch.await();
-		return links.size();
+		vertx.close();
+		ti.set("Vertx1", links.size());
 	}
 	
-	public int vertx2() throws InterruptedException {
+	public void vertx2(Timeit ti) throws InterruptedException {
 
 		Vertx vertx = Vertx.vertx();
 		WebClient client = WebClient.create(vertx);
@@ -196,10 +197,11 @@ public class Crawler {
 		});
 
 		latch.await();
-		return links.size();
+		vertx.close();
+		ti.set("Vertx2", links.size());
 	}
 	
-	public int vertx3() throws InterruptedException {
+	public void vertx3(Timeit ti) throws InterruptedException {
 
 		Vertx vertx = Vertx.vertx();
 		WebClient client = WebClient.create(vertx);
@@ -214,10 +216,11 @@ public class Crawler {
 				});
 			});
 		latch.await();
-		return links.size();
+		vertx.close();
+		ti.set("Vertx3", links.size());
 	}
 	
-	public int vertx4() throws InterruptedException {
+	public void vertx4(Timeit ti) throws InterruptedException {
 
 		Vertx vertx = Vertx.vertx();
 		WebClient client = WebClient.create(vertx);
@@ -237,7 +240,9 @@ public class Crawler {
 				});
 			});
 		latch.await();
-		return links.size();
+		
+		vertx.close();
+		ti.set("Vertx4", links.size());
 	}
 
 	public static void main(String[] args) throws Exception {

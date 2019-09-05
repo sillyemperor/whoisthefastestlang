@@ -14,18 +14,21 @@ with open('../../data/links.txt', 'rt') as fp:
 def synchronize():
     for url in links:
         requests.get(url)
+    return len(links)
 
 
 @timeit
 def process():
     with Pool(4) as p:
         p.map(requests.get, links)
+    return len(links)
 
 
 @timeit
 def thread():
     with futures.ThreadPoolExecutor(4) as p:
         p.map(requests.get, links)
+    return len(links)
 
 
 @timeit
@@ -46,6 +49,7 @@ def asyncs():
             await asyncio.gather(*tasks)
 
     asyncio.run(main(), debug=True)
+    return len(links)
 
 synchronize()
 process()

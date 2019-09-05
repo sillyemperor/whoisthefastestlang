@@ -1,14 +1,31 @@
 package wsfl;
 
-import java.util.concurrent.Callable;
-
 public class Timeit {
 
-	public static void timeit(Callable<Integer> f) throws Exception {
-		long t = System.currentTimeMillis();
-		Integer n = f.call();
+	private String name;
+	private int number;
+	
+	public String getName() {
+		return name;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void set(String name, int number) {
+		this.name = name;
+		this.number = number;
+	}
+	
+	
+	public static void timeit(TimeitCallable f) throws Exception {
+		Timeit timeit = new Timeit();
+		long t = System.currentTimeMillis();		
+		f.call(timeit);
 		t = System.currentTimeMillis() - t;
-		float mean = (n != null && n > 0) ? t / n : 0;
-		System.out.println(f.getClass().getName() + " " + t + " " + mean);
+		int n = timeit.number;
+		float mean = n > 0 ? t / n : 0;
+		System.out.println(timeit.name + " " + t + " " + mean);
 	}
 }

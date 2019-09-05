@@ -12,29 +12,36 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 
 public class Hash {
-
-	public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, FileNotFoundException, IOException, InvalidKeyException {
+	
+	private byte[] data;
+	private int count;
+	
+	Hash() throws FileNotFoundException, IOException {
 		String s = IOUtils.toString(new FileInputStream("../../data/xyj.txt"));
-		final byte[] data = s.getBytes();
-		int n = 1000;
+		data = s.getBytes();
+		count = 1000;
+	}
+	
+	public void synchronize(Timeit ti) {
+		IntStream.range(0, count).forEach(i -> {
+			byte[] unuse = DigestUtils.sha256(data);
+		});
 		
-		{
-			long t = System.currentTimeMillis();
-			System.out.println("Synchronize");
-			IntStream.range(0, n).forEach(i -> {
-				byte[] unuse = DigestUtils.sha256(data);
-			});
-			System.out.println(System.currentTimeMillis() - t);
-		}
+		ti.set("顺序", count);
+	}
+	
+	public void multipleThread(Timeit ti) {
+		IntStream.range(0, count).parallel().forEach(i -> {
+			byte[] unuse = DigestUtils.sha256(data);
+		});
+		ti.set("多线程", count);
+	}
+
+	public static void main(String[] args) throws Exception {
+		Hash h = new Hash();
 		
-		{	
-			long t = System.currentTimeMillis();
-			System.out.println("Multiple Thread");
-			IntStream.range(0, n).parallel().forEach(i -> {
-				byte[] unuse = DigestUtils.sha256(data);
-			});
-			System.out.println(System.currentTimeMillis() - t);
-		}
+		Timeit.timeit(h::synchronize);
+		Timeit.timeit(h::multipleThread);
 	}
 
 }
