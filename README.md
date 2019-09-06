@@ -41,8 +41,10 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 | --- | --- | --- | ---| --- |
 | Java | 11 | 5 | 无 | 无 |
 | Python | 4 | 2 | 2 | 5 |
+| Rust | 10 | 无 | 5 | 无 |
 
 很意外的Java居然比Python要慢一些，其实只要深入代码会发现，Python使用了[C代码](https://github.com/python/cpython/blob/master/Modules/clinic/sha256module.c.h)，而Java没有这样做。
+*Rust的测试代码是边学边写的，可能有使用不当的情况，之后熟悉了回来重新测试。*
 
 ## 3. 图片处理
 
