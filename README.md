@@ -12,6 +12,9 @@
 >   - Java HotSpot(TM) 64-Bit Server VM (build 25.162-b12, mixed mode)
 > + 采用的Python版本：
 >   - Python 3.7.3
+> + 采用的Rust版本：
+>   - rustc 1.37.0
+
 
 
 ## 1. 网页抓取
@@ -29,7 +32,7 @@
 
 Python的由于多线程饱受诟病，所以增加了多进程的方案，异步使用到了[aiohttp](https://github.com/aio-libs/aiohttp)。
 
-经过几次执行，发现Python3的async效果非常好，将来计划引入nodejs，go和rust。
+经过几次执行，发现Python3的async效果非常好。
 
 ## 2. Hash运算
 
