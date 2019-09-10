@@ -1,5 +1,5 @@
 [package]
-name = "wsfl"
+name = "json-dump"
 version = "0.1.0"
 authors = ["Wang Jiang <sillyemperor@163.com>"]
 edition = "2018"
@@ -8,7 +8,5 @@ edition = "2018"
 
 [dependencies]
 
-sha2 = "0.8.0"
+json = "0.12.0"
 crossbeam = "0.7.2"
-
-

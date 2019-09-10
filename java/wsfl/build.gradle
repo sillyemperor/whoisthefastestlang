@@ -27,6 +27,7 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
     implementation 'commons-codec:commons-codec:1.12'
     implementation 'org.apache.httpcomponents:httpasyncclient:4.1'
     implementation 'org.apache.commons:commons-lang3:3.9'

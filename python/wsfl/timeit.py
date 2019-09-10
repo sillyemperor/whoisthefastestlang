@@ -6,5 +6,5 @@ def timeit(f):
         n = f()
         t = (time.time() - t)*1000
 
-        print('time', f.__name__, t, t/n if n>0 else None)
+        print('time', f.__name__, t, '(ms)', t/n if n>0 else None, '(ms)')
     return _wrapper

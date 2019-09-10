@@ -25,7 +25,7 @@ public class Timeit {
 		f.call(timeit);
 		t = System.currentTimeMillis() - t;
 		int n = timeit.number;
-		float mean = n > 0 ? t / n : 0;
+		double mean = n > 0 ? (double)t / n : 0;
 		System.out.println(timeit.name + " " + t + " " + mean);
 	}
 }

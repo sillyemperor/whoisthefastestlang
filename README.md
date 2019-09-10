@@ -62,6 +62,29 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 
 可以看到这一次Java和Python的执行时间是相似的，Pillow使用了C来实现图像处理。Java的JAI框架默认安装的是纯Java实现的，但是可以在[官网](https://www.oracle.com/technetwork/java/install-jai-imageio-1-0-01-139659.html#PlatformRequirements)下载本地代码的实现，应该可以进一步提高性能。
 
+## 4. Json反序列化
+
+Python采用了[ujson](https://pypi.org/project/ujson/)，Java使用的是[Jackson](https://github.com/FasterXML/jackson-databind)，Rust使用的是[json](https://docs.rs/json/0.12.0/json/)。
+
+下表中的数值为100000次运算后取得平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/big.json)。
+
+| 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
+| --- | --- | --- | ---| --- |
+| Java | 0.05 | 0.02 | 无 | 无 |
+| Python | 0.08 | 0.11 | 0.04 | 无 |
+| Rust | 0.06 | 0.03 | 无 | 无 |
+
+## 5. Json序列化
+
+Python采用了[ujson](https://pypi.org/project/ujson/)，Java使用的是[Jackson](https://github.com/FasterXML/jackson-databind)，Rust使用的是[json](https://docs.rs/json/0.12.0/json/)。
+
+下表中的数值为100000次运算后取得平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/big.json)。
+
+| 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
+| --- | --- | --- | ---| --- |
+| Java | 0.03 | 0.01 | 无 | 无 |
+| Python | 0.05 | 0.07 | 0.03 | 无 |
+| Rust | 0.02 | 0.01 | 无 | 无 |
 
 
 
