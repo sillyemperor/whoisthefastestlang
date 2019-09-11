@@ -20,11 +20,8 @@ fn synchronize(contents: &str, n: u128) {
 	println!("synchronize {} {}", mis, mis/nf);
 }
 
-fn multiple_thread() {
-	let contents = fs::read_to_string("../../data/big.json")
-		.expect("Something went wrong reading the file");
+fn multiple_thread(contents: &str, n: u128) {
 	
-	let n = 100000;
 	let elapsed = Instant::now();
 	thread::scope(|s| {
 	
@@ -56,5 +53,5 @@ fn main() {
 		.expect("Something went wrong reading the file");
 	
 	synchronize(&contents, 100000);
-	multiple_thread();
+	multiple_thread(&contents, 100000);
 }
