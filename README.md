@@ -19,7 +19,7 @@
 
 ## 1. 网页抓取
 
-假设我们需要访问许多网络连接并处理返回结果，可以不考虑访问顺序。最简单的方法就是一个个访问，优点是代码简单，缺点是速度太慢。要想提高速度就需要使用并发。下面就把几种语言各自的方案分别测试一下，看看效果。
+假设我们需要访问许多网络连接并处理返回结果，可以不考虑访问顺序。最简单的方法就是一个个访问，优点是代码简单，缺点是速度太慢。要想提高速度就需要使用并发。下面就把几种语言各自的方案分别测试一下，看看效果。[Java代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/java/wsfl/src/main/java/wsfl/Crawler.java) [Python代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/python/wsfl/crawl_links.py)
 
 下表中的数值为访问平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/links.txt)
 
@@ -36,7 +36,7 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 
 ## 2. Hash运算
 
-访问网页更多是IO操作，CPU等待。Hash运算就不同了。我选择使用[SHA256](https://baike.baidu.com/item/sha256)进行测试。具体的做法就是多次对一段文本进行hash运算。
+访问网页更多是IO操作，CPU等待。Hash运算就不同了。我选择使用[SHA256](https://baike.baidu.com/item/sha256)进行测试。具体的做法就是多次对一段文本进行hash运算。[Java代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/java/wsfl/src/main/java/wsfl/Hash.java) [Python代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/python/wsfl/hash.py) [Rust代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/rust/hash/src/main.rs)
 
 下表中的数值为1000次运算后取得平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/xyj.txt)
 
@@ -51,7 +51,7 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 
 ## 3. 图片处理
 
-我用给JPEG图片加水印来测试图片处理的能力。Python使用了[Pillow](https://python-pillow.org/)进行图像处理。Java使用的是JDK提供的JAI。
+我用给JPEG图片加水印来测试图片处理的能力。Python使用了[Pillow](https://python-pillow.org/)进行图像处理。Java使用的是JDK提供的JAI。[Java代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/java/wsfl/src/main/java/wsfl/Watermark.java) [Python代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/python/wsfl/watermark.py)
 
 下表中的数值为1000次运算后取得平均所需的**毫秒**数，[这里是底图](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/lena512color.jpg)，[这是用作水印的PNG图](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/stamp.png)
 
@@ -62,29 +62,18 @@ Python的由于多线程饱受诟病，所以增加了多进程的方案，异�
 
 可以看到这一次Java和Python的执行时间是相似的，Pillow使用了C来实现图像处理。Java的JAI框架默认安装的是纯Java实现的，但是可以在[官网](https://www.oracle.com/technetwork/java/install-jai-imageio-1-0-01-139659.html#PlatformRequirements)下载本地代码的实现，应该可以进一步提高性能。
 
-## 4. Json反序列化
+## 4. Json
 
-Python采用了[ujson](https://pypi.org/project/ujson/)，Java使用的是[Jackson](https://github.com/FasterXML/jackson-databind)，Rust使用的是[json](https://docs.rs/json/0.12.0/json/)。
-
-下表中的数值为100000次运算后取得平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/big.json)。
-
-| 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
-| --- | --- | --- | ---| --- |
-| Java | 0.05 | 0.02 | 无 | 无 |
-| Python | 0.08 | 0.11 | 0.04 | 无 |
-| Rust | 0.06 | 0.03 | 无 | 无 |
-
-## 5. Json序列化
-
-Python采用了[ujson](https://pypi.org/project/ujson/)，Java使用的是[Jackson](https://github.com/FasterXML/jackson-databind)，Rust使用的是[json](https://docs.rs/json/0.12.0/json/)。
+本测试先对一个Json字符串反序列化，然后再序列化。Python采用了[ujson](https://pypi.org/project/ujson/)，Java使用的是[Jackson](https://github.com/FasterXML/jackson-databind)，Rust使用的是[json](https://docs.rs/json/0.12.0/json/)。[Java代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/java/wsfl/src/main/java/wsfl/Json.java) [Python代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/python/wsfl/json_mix.py) [Rust代码](https://github.com/sillyemperor/whoisthefastestlang/blob/master/rust/json-mix/src/main.rs)
 
 下表中的数值为100000次运算后取得平均所需的**毫秒**数，[这里是测试数据](https://github.com/sillyemperor/whoisthefastestlang/blob/master/data/big.json)。
 
 | 语言 | 顺序执行 | 多线程 | 多进程 | 异步 |
 | --- | --- | --- | ---| --- |
-| Java | 0.03 | 0.01 | 无 | 无 |
-| Python | 0.05 | 0.07 | 0.03 | 无 |
-| Rust | 0.02 | 0.01 | 无 | 无 |
+| Java | 0.08 | 0.04 | 无 | 无 |
+| Python | 0.14 | 0.16 | 0.07 | 无 |
+| Rust | 0.07 | 0.03 | 无 | 无 |
+
 
 
 
