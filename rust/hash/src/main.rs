@@ -21,12 +21,7 @@ fn synchronize(bytes: & [u8], n: u128) {
 	println!("synchronize {} {}", t.as_millis(), t.as_millis()/n);
 }
 
-fn multiple_thread() {
-	let contents = fs::read_to_string("../../data/xyj.txt")
-		.expect("Something went wrong reading the file");
-	let bytes = contents.as_bytes();
-	
-	let n = 1000;
+fn multiple_thread(bytes: & [u8], n: u128) {
 	let elapsed = Instant::now();
 	thread::scope(|s| {
 	
@@ -63,5 +58,5 @@ fn main() {
 	
 //	println!("{}", contents.len());
 	synchronize(bytes, 1000);
-	multiple_thread();
+	multiple_thread(&bytes, 1000);
 }
